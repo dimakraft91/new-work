@@ -1773,7 +1773,9 @@ body {
 .video video {
     max-width: 400px;
     max-height: 400px;
-    pointer-events: auto; /* Должно быть по умолчанию, но проверьте */
+    pointer-events: auto;
+    width: 100%;
 }
 
 /**/
+

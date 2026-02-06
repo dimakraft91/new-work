@@ -1,1236 +1,1153 @@
-<!DOCTYPE html>
-<html lang="DE" class="js" style="--header-height: 169px;">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script>
-        ! function(i, n) {
-            i._plt = i._plt || (n && n.timeOrigin ? n.timeOrigin + n.now() : Date.now())
-        }(window, performance);
-    </script>
-    <title>ARD.de : Die deutsche Entdeckung, die Experten weltweit verblüfft
-    </title>
-    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" type="image/png" href="img/pp.webp">
-
-    <style>
-        /* fond page si besoin */
-        :root {
-            --page-bg: #F8F1E6;
-        }
-
-        body {
-            background: var(--page-bg);
-        }
-
-        /* header */
-        .m-header {
-            position: static;
-            /* reste collé en haut */
-            top: 0;
-            z-index: 1000;
-            width: 100%;
-            background: #fff;
-            /* fond blanc */
-            box-shadow: 0 8px 20px -14px rgba(0, 0, 0, .25);
-            /* ombre subtile vers le bas */
-            margin-bottom: 40px;
-            margin-top: -25px;
-            /* demandé */
-            padding: 10px 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(0, 0, 0, .04);
-            /* ligne très légère */
-        }
-
-        .m-header.m-header--fullbleed {
-            width: 100vw;
-            margin-left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .m-header__logo img {
-            height: 24px;
-            width: auto;
-            display: block;
-        }
-
-        .m-header__actions {
-            display: flex;
-            gap: 14px;
-            align-items: center;
-        }
-
-        .icon-btn,
-        .avatar-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            border-radius: 999px;
-            color: #1f2937;
-            background: #ffffff;
-            border: 1px solid rgba(0, 0, 0, .06);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, .04);
-        }
-
-        /* rendre les boutons non cliquables */
-        .m-header__actions a.is-disabled {
-            pointer-events: none;
-            cursor: default;
-            opacity: .92;
-        }
-
-        /* Hauteur du header (ajuste si besoin) */
-        :root {
-            --header-h: 64px;
-        }
-
-        @media (max-width: 480px) {
-            :root {
-                --header-h: 56px;
-            }
-        }
-
-        /* Ton titre - MARGE TOP RÉDUITE DE -10PX SUPPLÉMENTAIRES */
-        .main_header {
-            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-            font-weight: 900;
-            font-size: clamp(24px, 5.2vw, 44px);
-            line-height: 1.08;
-            letter-spacing: .3px;
-            text-transform: uppercase;
-            text-align: center;
-            max-width: 900px;
-
-            /* marge top réduite de -10px supplémentaires */
-            margin: calc(var(--header-h) - 45px) auto 22px;
-
-            /* si tu arrives sur ce titre via un #ancre */
-            scroll-margin-top: calc(var(--header-h) + 12px);
-
-            text-wrap: balance;
-        }
-
-        /* ton span de surlignage (on garde le nom) */
-        .green_bg {
-            color: #fff;
-            background: linear-gradient(135deg, #ff2e2e, #c40000);
-            padding: .05em .22em .08em;
-            /* respire autour du texte */
-            border-radius: .28em;
-            /* pastille élégante sur chaque ligne */
-            box-shadow:
-                inset 0 -0.12em 0 rgba(255, 255, 255, .12),
-                0 .16em .45em rgba(200, 0, 0, .28);
-
-            /* permet au fond + arrondi d'être appliqué à chaque ligne du span */
-            -webkit-box-decoration-break: clone;
-            box-decoration-break: clone;
-        }
-
-        /* mobile fin : police réduite */
-        @media (max-width: 480px) {
-            .main_header {
-                font-size: clamp(20px, 7.5vw, 28px);
-                line-height: 1.08;
-                /* léger confort de lecture */
-            }
-        }
-
-        .subtitle {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-            text-transform: uppercase;
-            font-weight: black;
-            line-height: 1.3;
-            margin-bottom: 20px;
-        }
-
-        /* ====== TV Strip – premium look (no HTML changes) ====== */
-        :root {
-            --tv-red: #CB0308;
-            --tv-red-2: #A40206;
-            --tv-text: #fff;
-            --tv-white-12: rgba(255, 255, 255, .12);
-        }
-
-        .block_tv {
-            position: relative;
-            color: var(--tv-text);
-            background:
-                radial-gradient(80% 120% at 100% 0%, rgba(255, 255, 255, .12) 0%, transparent 60%),
-                linear-gradient(135deg, var(--tv-red) 0%, var(--tv-red-2) 100%);
-            border: 1px solid var(--tv-white-12);
-            border-radius: 18px;
-            padding: clamp(16px, 2.5vw, 28px) clamp(16px, 3vw, 40px);
-            box-shadow: 0 14px 32px rgba(203, 3, 8, .25);
-            text-align: center;
-            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-            overflow: hidden;
-
-            /* MARGE TOP AUGMENTÉE de 20px à 50px */
-            margin-top: 50px;
-            margin-bottom: 20px;
-        }
-
-        /* Decorative glow */
-        .block_tv::before {
-            content: "";
-            position: absolute;
-            left: -15%;
-            right: -15%;
-            top: -40px;
-            height: 140px;
-            background: radial-gradient(60% 100% at 50% 0, rgba(255, 255, 255, .22), transparent 70%);
-            filter: blur(6px);
-            opacity: .5;
-            pointer-events: none;
-        }
-
-        /* Headline */
-        .block_tv>p {
-            margin: 0 0 clamp(10px, 1.8vw, 16px);
-            text-transform: uppercase;
-            letter-spacing: .08em;
-            font-weight: 900;
-            font-size: clamp(18px, 2.6vw, 28px);
-            line-height: 1.15;
-            text-shadow: 0 1px 0 rgba(0, 0, 0, .25);
-        }
-
-        /* Logos row */
-        .tv_icons {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: clamp(12px, 2.6vw, 30px);
-            flex-wrap: wrap;
-        }
-
-        /* Logo pills (force perfect circles, unify size) */
-        .tv_icons img {
-            width: clamp(60px, 10vw, 96px);
-            aspect-ratio: 1 / 1;
-            /* keeps them perfectly round */
-            border-radius: 50%;
-            object-fit: cover;
-            /* crops to fill the circle */
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, .10), rgba(255, 255, 255, .02));
-            box-shadow:
-                0 6px 20px rgba(0, 0, 0, .25),
-                inset 0 0 0 1px rgba(255, 255, 255, .16);
-            filter: grayscale(100%) contrast(110%) brightness(98%);
-            opacity: .9;
-            transition: transform .25s ease, filter .25s ease, box-shadow .25s ease, opacity .25s ease;
-            will-change: transform, filter;
-        }
-
-        .tv_icons img:hover {
-            filter: grayscale(0%);
-            opacity: 1;
-            transform: translateY(-2px) scale(1.03);
-            box-shadow:
-                0 10px 28px rgba(0, 0, 0, .32),
-                inset 0 0 0 1px rgba(255, 255, 255, .20);
-        }
-
-        /* Centre le block_tv horizontalement sur desktop */
-        @media (min-width: 1024px) {
-            .block_tv {
-                width: min(100%, 900px);
-                margin-left: auto !important;
-                margin-right: auto !important;
-                align-self: center;
-                /* utile si le parent est en flex */
-                display: block;
-            }
-        }
-
-        /* Small screens */
-        @media (max-width: 480px) {
-            .block_tv {
-                border-radius: 12px;
-            }
-
-            .tv_icons {
-                gap: 14px;
-            }
-
-            .tv_icons img {
-                width: clamp(54px, 22vw, 80px);
-            }
-        }
-
-        /* Motion accessibility */
-        @media (prefers-reduced-motion: reduce) {
-            .tv_icons img {
-                transition: none;
-            }
-        }
-
-        /* ===== RÉDUCTION TAILLE VIDÉO - RÈGLES SPÉCIFIQUES VTURB ===== */
-
-        /* Cibler spécifiquement le wrapper vidéo et le player vturb */
-        #video-wrapper,
-        vturb-smartplayer,
-        #vid-6890ea4af5739e87028bc94f {
-            max-width: 400px !important;
-            width: 100% !important;
-            margin: 0 auto !important;
-            display: block !important;
-        }
-
-        /* Tous les autres conteneurs vidéo possibles */
-        #container_video,
-        #video,
-        .video,
-        video,
-        iframe[src*="youtube"],
-        iframe[src*="vimeo"],
-        iframe[src*="player"],
-        .video-container,
-        .video-wrapper {
-            max-width: 400px !important;
-            width: 100% !important;
-            margin-left: auto !important;
-            margin-right: auto !important;
-        }
-
-        /* Spécifiquement pour les iframes vidéo */
-        iframe {
-            max-width: 750px !important;
-            width: 100% !important;
-            margin: 0 auto !important;
-            display: block !important;
-        }
-
-        /* Pour les players vidéo avec des classes spécifiques */
-        .smartplayer,
-        .smartplayer-content,
-        [class*="player"],
-        [class*="video"] {
-            max-width: 750px !important;
-            width: 100% !important;
-            margin: 0 auto !important;
-        }
-
-        /* Mobile : pleine largeur sans padding */
-        @media (max-width: 768px) {
-
-            #video-wrapper,
-            vturb-smartplayer,
-            #vid-6890ea4af5739e87028bc94f,
-            #container_video,
-            #video,
-            .video,
-            video,
-            iframe,
-            .smartplayer,
-            .smartplayer-content,
-            [class*="player"],
-            [class*="video"] {
-                max-width: 100% !important;
-                width: 100% !important;
-                padding: 0 !important;
-                box-sizing: border-box !important;
-                margin: 0 auto !important;
-            }
-        }
-
-        /* ===== FIN RÈGLES VIDÉO ===== */
-
-        /* Container vidéo avec marge top supplémentaire pour plus d'espace après le block TV */
-        #container_video {
-            position: relative;
-            z-index: 2;
-            margin-top: 40px;
-            /* Espace supplémentaire après le block TV */
-        }
-
-        #container_video.fullscreen {
-            background: #000;
-            width: 100vw;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 10000;
-            margin-top: 0;
-            /* Pas de marge en fullscreen */
-        }
-
-        /* Reste du CSS inchangé... */
-        body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
-        }
-
-        .headimg {
-            max-width: 100%;
-        }
-
-        .bg-whitee {
-            background-color: #F7F5F5;
-            max-width: 100% !important;
-            padding-top: 20px;
-            padding-bottom: 20px;
-        }
-
-        .video {
-            max-width: 600px;
-            margin-top: 30px;
-        }
-
-        .smartplayer-content {
-            border: 1px solid #000000 !important;
-        }
-
-        /* comments */
-        .fb-comments {
-            border: 1px solid #e9ebee;
-            border-radius: 3px;
-            padding: 0 15px;
-            padding-bottom: 15px;
-            margin: auto;
-            position: relative;
-            color: #4267b2;
-        }
-
-        /* Image intégrée dans une bulle de commentaire */
-        .fb-comments-comment-text .fb-comment-body {
-            display: block;
-        }
-
-        .fb-comments-comment-text .fb-photo {
-            display: block;
-            margin-top: 8px;
-            aspect-ratio: 16 / 9;
-            /* ratio propre façon FB */
-            background: #000;
-            border: 1px solid #e4e6eb;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .fb-comments-comment-text .fb-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            /* pas d'étirement, recadrage propre */
-            display: block;
-        }
-
-        /* Mobile : arrondi un peu plus doux, ratio plus "haut" */
-        @media (max-width:600px) {
-            .fb-comments-comment-text .fb-photo {
-                aspect-ratio: 4 / 3;
-                border-radius: 10px;
-            }
-        }
-
-        .fb-comments-header {
-            padding: 15px 0;
-            border-bottom: 1px solid #e9ebee;
-        }
-
-        .fb-comments-header span {
-            color: #000;
-            font-weight: 700;
-            font-size: 0.9em;
-        }
-
-        .fb-comments-comment {
-            border: none;
-            padding: 0;
-            margin: 10px 0;
-            width: 100%;
-        }
-
-        .fb-comments-reply-wrapper {
-            margin-left: 60px;
-            border-left: 1px dotted #e9ebee;
-            padding-left: 5px;
-        }
-
-        tr,
-        td {
-            border: none;
-            margin: 0;
-        }
-
-        td {
-            padding: 2.5px;
-        }
-
-        tr {
-            padding: 2.5px 0;
-        }
-
-        .fb-comments-comment-img {
-            vertical-align: top;
-            width: 48px;
-            padding-right: 5px;
-        }
-
-        .fb-comments-comment-img img {
-            max-width: 48px;
-            border-radius: 25px;
-        }
-
-        .fb-comments-comment-name {
-            font-size: 0.85em;
-        }
-
-        .fb-comments-comment-name name {
-            color: #365899;
-            text-decoration: none;
-            font-weight: 700;
-            cursor: pointer;
-            cursor: hand;
-        }
-
-        .fb-comments-comment-name name:hover {
-            text-decoration: underline;
-        }
-
-        .fb-comments-comment-name occupation {
-            color: #90949c;
-        }
-
-        .fb-comments-comment-text {
-            font-size: 0.9em;
-            color: #000;
-            border-radius: 21px;
-            background-color: #eaebef;
-            padding: 10px 20px;
-        }
-
-        .fb-comments-comment-actions like,
-        .fb-comments-comment-actions reply {
-            font-size: 0.75em;
-            color: #4267b2;
-            text-decoration: none;
-            cursor: pointer;
-            cursor: hand;
-        }
-
-        .fb-comments-comment-actions like.liked {
-            color: #90949c;
-        }
-
-        .fb-comments-comment-actions like:hover,
-        .fb-comments-comment-actions reply:hover {
-            text-decoration: underline;
-        }
-
-        .fb-comments-comment-actions likes {
-            font-size: 13px;
-            background: url("img/29da2ff5569cda09e5e30e37218fb69c9ab32a84.png") no-repeat left center;
-            background-size: 40px auto;
-            padding-left: 45px;
-            padding-right: 6px;
-            padding-top: 3px;
-            padding-bottom: 2px;
-            margin-top: -10px;
-            float: right;
-            background-color: #fff;
-            border: solid #eaebef;
-            border-radius: 19px;
-            min-height: 20px;
-            display: flex;
-            align-items: center;
-        }
-
-        .fb-comments-comment-actions date {
-            font-size: 0.75em;
-            color: #90949c;
-            text-decoration: none;
-            cursor: pointer;
-            cursor: hand;
-        }
-
-        .fb-comments-comment-actions date:hover {
-            text-decoration: underline;
-        }
-
-        .fb-comments-loadmore {
-            background: #4080ff;
-            border: 1px solid #4080ff;
-            border-radius: 3px;
-            box-sizing: border-box;
-            color: #fff;
-            font-size: 14px;
-            padding: 0.875em;
-            text-shadow: none;
-            width: 100%;
-            font-weight: 700;
-            cursor: hand;
-            cursor: pointer;
-        }
-
-        .fb-reply-input {
-            border: 1px solid lightgrey;
-            border-radius: 3px;
-            width: 100%;
-            padding: 5px 7.5px;
-            font-size: 0.75em;
-            color: #000;
-            outline: none;
-        }
-
-        .fb-reply-input:hover,
-        .fb-reply-button:hover {
-            outline: none;
-        }
-
-        .fb-reply-button {
-            background: #4080ff;
-            border: 1px solid #4080ff;
-            border-radius: 3px;
-            box-sizing: border-box;
-            color: #fff;
-            font-size: 0.75em;
-            padding: 5px 7.5px;
-            text-shadow: none;
-            width: 100%;
-            font-weight: 700;
-            cursor: hand;
-            cursor: pointer;
-            outline: none;
-        }
-
-        body.noscroll {
-            margin: 0;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        body {
-            background: #fff;
-        }
-
-        html.is-locked,
-        html.is-locked body {
-            height: calc(var(--window-inner-height) - 1px);
-            overflow: hidden;
-            box-sizing: border-box;
-        }
-
-        #video {
-            display: block;
-            width: 100%;
-            max-width: 600px;
-            height: auto;
-            margin: 0 auto;
-        }
-
-        /* Garde la vidéo responsive sur mobile */
-        @media (max-width: 768px) {
-
-            #video,
-            .video {
-                max-width: 100%;
-                padding: 0 20px;
-                box-sizing: border-box;
-            }
-        }
-
-        #container_video.fullscreen #video {
-            width: 100%;
-            max-width: 100%;
-            height: 100%;
-        }
-
-        #open-video,
-        #popup,
-        #play {
-            display: none;
-            position: absolute;
-            margin: auto;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            text-align: center;
-            z-index: 2;
-            height: 150px;
-        }
-
-        @media screen and (max-width: 500px) {
-            #open-video {
-                height: 75px;
-            }
-        }
-
-        #play {
-            display: block;
-        }
-
-        #play h4:first-child {
-            margin-bottom: 60px;
-        }
-
-        #open-video>div,
-        #popup>div,
-        #play>div {
-            position: relative;
-            background-color: rgba(0, 207, 47, 0.75);
-            padding: 5px 20px;
-            margin: 0 auto;
-            width: 30%;
-            color: #fff;
-            border: 2px solid #fff;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        #video-open>div,
-        #popup>div {
-            width: 40%;
-            background-color: rgba(255, 0, 0, 0.75);
-        }
-
-        @media (max-width:600px) {
-
-            #video-open>div,
-            #popup>div,
-            #play>div {
-                width: 80%;
-            }
-
-            #open-video>div {
-                width: 50%;
-            }
-        }
-
-        #order {
-            display: none;
-            margin: 0 auto;
-        }
-
-        #order h1 {
-            font-size: 4em;
-            text-align: center;
-            margin-top: 30%;
-        }
-
-        #close {
-            display: none;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-            z-index: 2;
-            background-size: cover;
-        }
-
-        /* form */
-        .formFb {
-            box-sizing: border-box;
-            margin: 1.5rem 0;
-        }
-
-        .formFb {
-            max-width: 600px;
-            font-size: 17px;
-            padding: 0.6em 1em;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 0 auto;
-            border-radius: 0.5em;
-            background-image: linear-gradient(90deg, #3580ed 50%, transparent 50%), linear-gradient(90deg, #3580ed 50%, transparent 50%), linear-gradient(0, #3580ed 50%, transparent 50%), linear-gradient(0, #3580ed 50%, transparent 50%);
-            background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
-            background-size: 10px 2px, 10px 2px, 2px 10px, 2px 10px;
-            animation: marching-ants 400ms infinite linear;
-        }
-
-        @keyframes marching-ants {
-            0% {
-                background-position: 0 0, 10px 100%, 0 10px, 100% 0;
-            }
-
-            100% {
-                background-position: 10px 0, 0 100%, 0 0, 100% 10px;
-            }
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        .hide {
-            display: none;
-        }
-
-        .formFb {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.1);
-            max-width: 400px;
-            margin: 0 auto;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .formFb::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #3b82f6 0%, #1d4ed8 100%);
-        }
-
-        .formFb__container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 32px 24px;
-        }
-
-        .formFb__text {
-            display: block;
-            margin: 0;
-            color: #374151;
-        }
-
-        .formFb__action {
-            margin-bottom: 24px;
-            text-align: center;
-            font-size: 19px;
-            color: #374151;
-            line-height: 1.5;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 500;
-            letter-spacing: -0.025em;
-        }
-
-        .formFb__action b {
-            color: #dc2626;
-            font-weight: 700;
-            font-size: 1.05em;
-        }
-
-        .formFb__timer {
-            margin: 0 0 32px 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: #fef2f2;
-            padding: 20px 24px;
-            border-radius: 10px;
-            border-left: 4px solid #dc2626;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .formFb__timer p {
-            margin-bottom: 12px;
-            font-weight: 600;
-            color: #991b1b;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-family: 'Inter', sans-serif;
-        }
-
+<!DOCTYPE html><html lang="en" class="js" style="--header-height: 169px;" data-scrapbook-source="https://ybalancelab.com/?ad_name=%D0%9D%D0%BE%D0%B2%D0%B0+%D1%80%D0%B5%D0%BA%D0%BB%D0%B0%D0%BC%D0%B0+%D0%B7+%D1%86%D1%96%D0%BB%D0%BB%D1%8E+%C2%AB%D0%9B%D1%96%D0%B4%D0%B8%C2%BB&amp;utm_placement=Facebook_Desktop_Feed&amp;campaign_id=120229901752220631&amp;1peremoga=120229901752610631&amp;ad_id=120229901752270631&amp;adset_name=%D0%9D%D0%BE%D0%B2%D0%B8%D0%B9+%D0%BD%D0%B0%D0%B1%D1%96%D1%80+%D1%80%D0%B5%D0%BA%D0%BB%D0%B0%D0%BC%D0%B8+%D0%B7+%D1%86%D1%96%D0%BB%D0%BB%D1%8E+%C2%AB%D0%9B%D1%96%D0%B4%D0%B8%C2%BB&amp;pixel=2684935991704829&amp;utm_medium=paid&amp;utm_source=fb&amp;utm_id=120229901752220631&amp;utm_content=120229901752270631&amp;utm_term=120229901752610631&amp;utm_campaign=120229901752220631" data-scrapbook-create="20250628103604312" data-scrapbook-title="SCIENTIFICALLY PROVEN: DIABETES CAN BE CURED IN 9 DAYS FROM THE COMFORT OF YOUR OWN HOME! The video has already started Click to listen!"><head>
+<script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
+<link rel="preload" href="https://scripts.converteai.net/fa97b555-27d9-4eec-922b-b73646fd703d/players/6967e06a16e3821ec3e1f275/v4/player.js" as="script">
+<link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
+<link rel="preload" href="https://cdn.converteai.net/fa97b555-27d9-4eec-922b-b73646fd703d/6967e05835a1be1be44dc809/main.m3u8" as="fetch">
+<link rel="dns-prefetch" href="https://cdn.converteai.net">
+<link rel="dns-prefetch" href="https://scripts.converteai.net">
+<link rel="dns-prefetch" href="https://images.converteai.net">
+<link rel="dns-prefetch" href="https://api.vturb.com.br">
+
+
+<link rel="icon" href="https://info.naturlichfit.com/de1.png" type="image/png">
+<link rel="shortcut icon" href="https://info.naturlichfit.com/de1.png" type="image/png">
+<link rel="apple-touch-icon" href="https://info.naturlichfit.com/de1.png">
+
+</head><body>﻿
+
+
+<base>
+  <link rel="stylesheet" href="css.css">
+  <title>ARD.de : Die deutsche Entdeckung, die Experten weltweit verblüfft
+  </title>
+  <script src="jquery-3.7.1.min.js"></script>
+  <link rel="icon" type="image/png" href="pp.webp">
+
+
+  <base>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+/* fond page si besoin */
+:root{ --page-bg: #F8F1E6; }
+body{ background: var(--page-bg); }
+
+/* header */
+.m-header{
+  position: static;          /* reste collé en haut */
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  background: #fff;          /* fond blanc */
+  box-shadow: 0 8px 20px -14px rgba(0,0,0,.25); /* ombre subtile vers le bas */
+  margin-bottom: 40px; 
+  margin-top: -25px;/* demandé */
+  padding: 10px 14px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid rgba(0,0,0,.04); /* ligne très légère */
+}
+.m-header.m-header--fullbleed{
+  width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+.m-header__logo img{ height: 24px; width: auto; display:block; }
+
+.m-header__actions{ display:flex; gap:14px; align-items:center; }
+.icon-btn, .avatar-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:36px; height:36px; border-radius:999px;
+  color:#1f2937; background:#ffffff; border:1px solid rgba(0,0,0,.06);
+  box-shadow: 0 1px 2px rgba(0,0,0,.04);
+}
+
+/* rendre les boutons non cliquables */
+.m-header__actions a.is-disabled{
+  pointer-events: none;
+  cursor: default;
+  opacity:.92;
+}
+
+/* Hauteur du header (ajuste si besoin) */
+:root { --header-h: 64px; }
+@media (max-width: 480px){ :root { --header-h: 56px; } }
+
+/* Ton titre - MARGE TOP RÉDUITE DE -10PX SUPPLÉMENTAIRES */
+.main_header{
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight: 900;
+  font-size: clamp(24px, 5.2vw, 44px);
+  line-height: 1.08;
+  letter-spacing: .3px;
+  text-transform: uppercase;
+  text-align: center;
+  max-width: 900px;
+
+  /* marge top réduite de -10px supplémentaires */
+  margin: calc(var(--header-h) - 45px) auto 22px;
+
+  /* si tu arrives sur ce titre via un #ancre */
+  scroll-margin-top: calc(var(--header-h) + 12px);
+
+  text-wrap: balance;
+}
+
+/* ton span de surlignage (on garde le nom) */
+.green_bg{
+  color: #fff;
+  background: linear-gradient(135deg, #ff2e2e, #c40000);
+  padding: .05em .22em .08em;       /* respire autour du texte */
+  border-radius: .28em;             /* pastille élégante sur chaque ligne */
+  box-shadow:
+    inset 0 -0.12em 0 rgba(255,255,255,.12),
+    0 .16em .45em rgba(200,0,0,.28);
+
+  /* permet au fond + arrondi d'être appliqué à chaque ligne du span */
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* mobile fin : police réduite */
+@media (max-width: 480px){
+  .main_header{
+    font-size: clamp(20px, 7.5vw, 28px);
+    line-height: 1.08; /* léger confort de lecture */
+  }
+}
+
+.subtitle {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: black;
+  line-height: 1.3;
+  margin-bottom: 20px;
+}
+
+/* ====== TV Strip – premium look (no HTML changes) ====== */
+:root{
+  --tv-red: #CB0308;
+  --tv-red-2: #A40206;
+  --tv-text: #fff;
+  --tv-white-12: rgba(255,255,255,.12);
+}
+
+.block_tv{
+  position: relative;
+  color: var(--tv-text);
+  background:
+    radial-gradient(80% 120% at 100% 0%, rgba(255,255,255,.12) 0%, transparent 60%),
+    linear-gradient(135deg, var(--tv-red) 0%, var(--tv-red-2) 100%);
+  border: 1px solid var(--tv-white-12);
+  border-radius: 18px;
+  padding: clamp(16px, 2.5vw, 28px) clamp(16px, 3vw, 40px);
+  box-shadow: 0 14px 32px rgba(203,3,8,.25);
+  text-align: center;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  overflow: hidden;
+
+  /* MARGE TOP AUGMENTÉE de 20px à 50px */
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+/* Decorative glow */
+.block_tv::before{
+  content:"";
+  position:absolute;
+  left:-15%; right:-15%; top:-40px; height:140px;
+  background: radial-gradient(60% 100% at 50% 0, rgba(255,255,255,.22), transparent 70%);
+  filter: blur(6px);
+  opacity:.5;
+  pointer-events:none;
+}
+
+/* Headline */
+.block_tv > p{
+  margin: 0 0 clamp(10px, 1.8vw, 16px);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-weight: 900;
+  font-size: clamp(18px, 2.6vw, 28px);
+  line-height: 1.15;
+  text-shadow: 0 1px 0 rgba(0,0,0,.25);
+}
+
+/* Logos row */
+.tv_icons{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 2.6vw, 30px);
+  flex-wrap: wrap;
+}
+
+/* Logo pills (force perfect circles, unify size) */
+.tv_icons img{
+  width: clamp(60px, 10vw, 96px);
+  aspect-ratio: 1 / 1;              /* keeps them perfectly round */
+  border-radius: 50%;
+  object-fit: cover;                 /* crops to fill the circle */
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.10), rgba(255,255,255,.02));
+  box-shadow:
+    0 6px 20px rgba(0,0,0,.25),
+    inset 0 0 0 1px rgba(255,255,255,.16);
+  filter: grayscale(100%) contrast(110%) brightness(98%);
+  opacity: .9;
+  transition: transform .25s ease, filter .25s ease, box-shadow .25s ease, opacity .25s ease;
+  will-change: transform, filter;
+}
+.tv_icons img:hover{
+  filter: grayscale(0%);
+  opacity: 1;
+  transform: translateY(-2px) scale(1.03);
+  box-shadow:
+    0 10px 28px rgba(0,0,0,.32),
+    inset 0 0 0 1px rgba(255,255,255,.20);
+}
+
+/* Centre le block_tv horizontalement sur desktop */
+@media (min-width: 1024px){
+  .block_tv{
+    width: min(100%, 900px);
+    margin-left: auto !important;
+    margin-right: auto !important;
+    align-self: center; /* utile si le parent est en flex */
+    display: block;
+  }
+}
+
+/* Small screens */
+@media (max-width: 480px){
+  .block_tv{ border-radius: 12px; }
+  .tv_icons{ gap: 14px; }
+  .tv_icons img{ width: clamp(54px, 22vw, 80px); }
+}
+
+/* Motion accessibility */
+@media (prefers-reduced-motion: reduce){
+  .tv_icons img{ transition: none; }
+}
+
+/* ===== RÉDUCTION TAILLE VIDÉO - RÈGLES SPÉCIFIQUES VTURB ===== */
+
+/* Cibler spécifiquement le wrapper vidéo et le player vturb */
+#video-wrapper,
+vturb-smartplayer,
+#vid-6890ea4af5739e87028bc94f {
+  max-width: 400px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  display: block !important;
+}
+
+/* Tous les autres conteneurs vidéo possibles */
+#container_video,
+#video,
+.video,
+video,
+iframe[src*="youtube"],
+iframe[src*="vimeo"],
+iframe[src*="player"],
+.video-container,
+.video-wrapper {
+  max-width: 400px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Spécifiquement pour les iframes vidéo */
+iframe {
+  max-width: 750px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  display: block !important;
+}
+
+/* Pour les players vidéo avec des classes spécifiques */
+.smartplayer,
+.smartplayer-content,
+[class*="player"],
+[class*="video"] {
+  max-width: 750px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+}
+
+/* Mobile : pleine largeur sans padding */
+@media (max-width: 768px) {
+  #video-wrapper,
+  vturb-smartplayer,
+  #vid-6890ea4af5739e87028bc94f,
+  #container_video,
+  #video,
+  .video,
+  video,
+  iframe,
+  .smartplayer,
+  .smartplayer-content,
+  [class*="player"],
+  [class*="video"] {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    margin: 0 auto !important;
+  }
+}
+
+/* ===== FIN RÈGLES VIDÉO ===== */
+
+/* Container vidéo avec marge top supplémentaire pour plus d'espace après le block TV */
+#container_video {
+  position: relative;
+  z-index: 2;
+  margin-top: 40px; /* Espace supplémentaire après le block TV */
+}
+
+#container_video.fullscreen {
+  background: #000;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  margin-top: 0; /* Pas de marge en fullscreen */
+}
+
+/* Reste du CSS inchangé... */
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+}
+
+.headimg {
+  max-width: 100%;
+}
+
+.bg-whitee {
+  background-color: #F7F5F5;
+  max-width: 100% !important;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.video {
+  max-width: 600px;
+  margin-top: 30px;
+}
+
+.smartplayer-content {
+  border: 1px solid #000000 !important;
+}
+
+/* comments */
+.fb-comments {
+  border: 1px solid #e9ebee;
+  border-radius: 3px;
+  padding: 0 15px;
+  padding-bottom: 15px;
+  margin: auto;
+  position: relative;
+  color: #4267b2;
+}
+
+/* Image intégrée dans une bulle de commentaire */
+.fb-comments-comment-text .fb-comment-body { display:block; }
+
+.fb-comments-comment-text .fb-photo{
+  display:block;
+  margin-top:8px;
+  aspect-ratio: 16 / 9;            /* ratio propre façon FB */
+  background:#000;
+  border:1px solid #e4e6eb;
+  border-radius:12px;
+  overflow:hidden;
+}
+
+.fb-comments-comment-text .fb-photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;                 /* pas d'étirement, recadrage propre */
+  display:block;
+}
+
+/* Mobile : arrondi un peu plus doux, ratio plus "haut" */
+@media (max-width:600px){
+  .fb-comments-comment-text .fb-photo{ aspect-ratio: 4 / 3; border-radius:10px; }
+}
+
+.fb-comments-header {
+  padding: 15px 0;
+  border-bottom: 1px solid #e9ebee;
+}
+
+.fb-comments-header span {
+  color: #000;
+  font-weight: 700;
+  font-size: 0.9em;
+}
+
+.fb-comments-comment {
+  border: none;
+  padding: 0;
+  margin: 10px 0;
+  width: 100%;
+}
+
+.fb-comments-reply-wrapper {
+  margin-left: 60px;
+  border-left: 1px dotted #e9ebee;
+  padding-left: 5px;
+}
+
+tr, td {
+  border: none;
+  margin: 0;
+}
+
+td {
+  padding: 2.5px;
+}
+
+tr {
+  padding: 2.5px 0;
+}
+
+.fb-comments-comment-img {
+  vertical-align: top;
+  width: 48px;
+  padding-right: 5px;
+}
+
+.fb-comments-comment-img img {
+  max-width: 48px;
+  border-radius: 25px;
+}
+
+.fb-comments-comment-name {
+  font-size: 0.85em;
+}
+
+.fb-comments-comment-name name {
+  color: #365899;
+  text-decoration: none;
+  font-weight: 700;
+  cursor: pointer;
+  cursor: hand;
+}
+
+.fb-comments-comment-name name:hover {
+  text-decoration: underline;
+}
+
+.fb-comments-comment-name occupation {
+  color: #90949c;
+}
+
+.fb-comments-comment-text {
+  font-size: 0.9em;
+  color: #000;
+  border-radius: 21px;
+  background-color: #eaebef;
+  padding: 10px 20px;
+}
+
+.fb-comments-comment-actions like,
+.fb-comments-comment-actions reply {
+  font-size: 0.75em;
+  color: #4267b2;
+  text-decoration: none;
+  cursor: pointer;
+  cursor: hand;
+}
+
+.fb-comments-comment-actions like.liked {
+  color: #90949c;
+}
+
+.fb-comments-comment-actions like:hover,
+.fb-comments-comment-actions reply:hover {
+  text-decoration: underline;
+}
+
+.fb-comments-comment-actions likes {
+  font-size: 13px;
+  background: url("29da2ff5569cda09e5e30e37218fb69c9ab32a84.png") no-repeat left center;
+  background-size: 40px auto;
+  padding-left: 45px;
+  padding-right: 6px;
+  padding-top: 3px;
+  padding-bottom: 2px;
+  margin-top: -10px;
+  float: right;
+  background-color: #fff;
+  border: solid #eaebef;
+  border-radius: 19px;
+  min-height: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.fb-comments-comment-actions date {
+  font-size: 0.75em;
+  color: #90949c;
+  text-decoration: none;
+  cursor: pointer;
+  cursor: hand;
+}
+
+.fb-comments-comment-actions date:hover {
+  text-decoration: underline;
+}
+
+.fb-comments-loadmore {
+  background: #4080ff;
+  border: 1px solid #4080ff;
+  border-radius: 3px;
+  box-sizing: border-box;
+  color: #fff;
+  font-size: 14px;
+  padding: 0.875em;
+  text-shadow: none;
+  width: 100%;
+  font-weight: 700;
+  cursor: hand;
+  cursor: pointer;
+}
+
+.fb-reply-input {
+  border: 1px solid lightgrey;
+  border-radius: 3px;
+  width: 100%;
+  padding: 5px 7.5px;
+  font-size: 0.75em;
+  color: #000;
+  outline: none;
+}
+
+.fb-reply-input:hover,
+.fb-reply-button:hover {
+  outline: none;
+}
+
+.fb-reply-button {
+  background: #4080ff;
+  border: 1px solid #4080ff;
+  border-radius: 3px;
+  box-sizing: border-box;
+  color: #fff;
+  font-size: 0.75em;
+  padding: 5px 7.5px;
+  text-shadow: none;
+  width: 100%;
+  font-weight: 700;
+  cursor: hand;
+  cursor: pointer;
+  outline: none;
+}
+
+body.noscroll {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+body {
+  background: #fff;
+}
+
+html.is-locked,
+html.is-locked body {
+  height: calc(var(--window-inner-height) - 1px);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+#video {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  margin: 0 auto;
+}
+
+/* Garde la vidéo responsive sur mobile */
+@media (max-width: 768px) {
+  #video,
+  .video {
+    max-width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+}
+
+#container_video.fullscreen #video {
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+}
+
+#open-video,
+#popup,
+#play {
+  display: none;
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  text-align: center;
+  z-index: 2;
+  height: 150px;
+}
+
+@media screen and (max-width: 500px) {
+  #open-video {
+    height: 75px;
+  }
+}
+
+#play {
+  display: block;
+}
+
+#play h4:first-child {
+  margin-bottom: 60px;
+}
+
+#open-video>div,
+#popup>div,
+#play>div {
+  position: relative;
+  background-color: rgba(0, 207, 47, 0.75);
+  padding: 5px 20px;
+  margin: 0 auto;
+  width: 30%;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#video-open>div,
+#popup>div {
+  width: 40%;
+  background-color: rgba(255, 0, 0, 0.75);
+}
+
+@media (max-width:600px) {
+  #video-open>div,
+  #popup>div,
+  #play>div {
+    width: 80%;
+  }
+
+  #open-video>div {
+    width: 50%;
+  }
+}
+
+#order {
+  display: none;
+  margin: 0 auto;
+}
+
+#order h1 {
+  font-size: 4em;
+  text-align: center;
+  margin-top: 30%;
+}
+
+#close {
+  display: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  z-index: 2;
+  background-size: cover;
+}
+
+/* form */
+.formFb {
+  box-sizing: border-box;
+  margin: 1.5rem 0;
+}
+
+.formFb {
+  max-width: 600px;
+  font-size: 17px;
+  padding: 0.6em 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  border-radius: 0.5em;
+  background-image: linear-gradient(90deg, #3580ed 50%, transparent 50%), linear-gradient(90deg, #3580ed 50%, transparent 50%), linear-gradient(0, #3580ed 50%, transparent 50%), linear-gradient(0, #3580ed 50%, transparent 50%);
+  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+  background-size: 10px 2px, 10px 2px, 2px 10px, 2px 10px;
+  animation: marching-ants 400ms infinite linear;
+}
+
+@keyframes marching-ants {
+  0% {
+    background-position: 0 0, 10px 100%, 0 10px, 100% 0;
+  }
+  100% {
+    background-position: 10px 0, 0 100%, 0 0, 100% 10px;
+  }
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.hide {
+  display: none;
+}
+
+.formFb {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.1);
+  max-width: 400px;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+}
+
+.formFb::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6 0%, #1d4ed8 100%);
+}
+
+.formFb__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 32px 24px;
+}
+
+.formFb__text {
+  display: block;
+  margin: 0;
+  color: #374151;
+}
+
+.formFb__action {
+  margin-bottom: 24px;
+  text-align: center;
+  font-size: 19px;
+  color: #374151;
+  line-height: 1.5;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+
+.formFb__action b {
+  color: #dc2626;
+  font-weight: 700;
+  font-size: 1.05em;
+}
+
+.formFb__timer {
+  margin: 0 0 32px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fef2f2;
+  padding: 20px 24px;
+  border-radius: 10px;
+  border-left: 4px solid #dc2626;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.formFb__timer p {
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: #991b1b;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Inter', sans-serif;
+}
+
+#stock-left {
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  font-weight: 900;
+  color: #dc2626;
+  transition: all 0.3s ease;
+  background: #ffffff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 1px solid #fee2e2;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.15);
+}
+
+.formFb__img {
+  max-width: 180px;
+  margin: -10px 0 32px 0;
+}
+
+.formFb__img img {
+  width: 100%;
+  max-width: 100%;
+  transition: transform 0.2s ease;
+}
+
+.formFb__img:hover img {
+  transform: scale(1.02);
+}
+
+.formFb__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 320px;
+  padding: 18px 24px;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  border: none;
+  border-radius: 10px;
+  text-decoration: none !important;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+  text-transform: uppercase;
+}
+
+.formFb__btn:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
+  color: #ffffff;
+}
+
+.formFb__btn:active {
+  transform: translateY(0);
+}
+
+.formFb__counter {
+  text-align: center;
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 24px;
+  font-style: italic;
+}
+
+.trust-indicators {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.trust-item svg {
+  color: #10b981;
+  flex-shrink: 0;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .formFb__container {
+    padding: 24px 20px;
+  }
+  
+  .formFb__action {
+    font-size: 17px;
+  }
+  
+  .formFb__timer {
+    padding: 16px 20px;
+  }
+
+  .formFb__btn {
+    padding: 15px 20px;
+    font-size: 15px;
+    max-width: 280px;
+  }
+
+  .trust-indicators {
+    gap: 10px;
+  }
+
+  #stock-left {
+    font-size: 18px;
+    padding: 6px 12px;
+  }
+}
+
+/* Animation d'apparition */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.formFb {
+  animation: slideInUp 0.6s ease-out;
+}
+
+/* Animation du compteur de stock */
+@keyframes pulse-stock {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+#stock-left {
+  animation: pulse-stock 3s infinite;
+}
+
+blockquote {
+  margin-bottom: 1rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img+blockquote {
+  margin-top: .5rem;
+}
+
+@media screen and (max-width: 500px) {
+  .main_header {
+    font-size: 22px;
+  }
+
+  .tv_icons img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .tv_icons {
+    gap: 5px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .main_header {
+    font-size: 26px;
+  }
+
+  .tv_icons>img {
+    scale: 0.7;
+  }
+}
+
+.iti {
+  width: 100%;
+}
+
+/* Desktop - taille vidéo encore plus réduite */
+@media (min-width: 1024px) {
+  #video {
+    max-width: 550px; /* Réduit de 650px à 550px */
+  }
+  
+  .video {
+    max-width: 600px; /* Réduit de 750px à 600px */
+  }
+}
+
+  </style>
+
+  <h1 class="main_header">
+    2026 :
+    <span class="green_bg"> WIE DIESES MOLEKÜL BIS ZU 9 KG IN 17 TAGEN VERSCHWINDEN LÄSST — OHNE SPORT
+      </span>
+  </h1>
+ <div id="vue-counter">
+  <span class="dot"></span>
+  <span class="text">2437 Personen sehen sich dieses Video gerade an</span>
+</div>
+
+<script>
+  let base = 2434;
+  let currentViews = base + Math.floor(Math.random() * 5); // 434–439 initial
+
+  function updateViews() {
+    const variation = Math.floor(Math.random() * 3) - 1; // -1, 0 oder +1
+    currentViews = Math.max(2410, Math.min(2470, currentViews + variation));
+    const counterText = document.querySelector("#vue-counter .text");
+    if (counterText) {
+      counterText.textContent = `${currentViews} Personen sehen sich dieses Video gerade an`;
+    }
+  }
+
+  setInterval(updateViews, 4000); // alle 4 Sekunden aktualisieren
+</script>
+
+<style>
+  #vue-counter {
+    text-align: center;
+    font-size: 12px;
+    color: #aa0000;
+    background-color: #ffecec;
+    padding: 4px 8px;
+    border-radius: 4px;
+    width: fit-content;
+    margin: 0 auto 6px auto;
+    font-weight: 500;
+    box-shadow: 0 0 3px rgba(255, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    background-color: red;
+    border-radius: 50%;
+    animation: blink 1.2s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+</style>
+<style>
+  .hide {
+    display: none;
+  }
+</style>
+<div id="video-wrapper">
+<vturb-smartplayer id="vid-6967e06a16e3821ec3e1f275" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"></vturb-smartplayer> <script type="text/javascript"> var s=document.createElement("script"); s.src="https://scripts.converteai.net/fa97b555-27d9-4eec-922b-b73646fd703d/players/6967e06a16e3821ec3e1f275/v4/player.js", s.async=!0,document.head.appendChild(s); </script>
+
+<script>
+  var delaySeconds = 490; 
+  var player = document.querySelector("vturb-smartplayer");
+
+  player.addEventListener("player:ready", function () {
+    // Affiche le formulaire et le widget à 645 secondes sans persistance
+    player.displayHiddenElements(delaySeconds, ["#order", "#purchase-widget"]);
+  });
+
+  // Redirection automatique à la fin de la vidéo
+  player.addEventListener("ended", function () {
+    window.location.href = "{offer}";
+  });
+</script>
+
+<!-- Marque les éléments à afficher après 18 min -->
+<form id="order" class="hide" class="smartplayer-scroll-event" style="margin-top: 20px">
+  <div id="formFb" class="formFb">
+    <div class="formFb__container">
+      <p class="formFb__action formFb__text">
+        <b>Die Aktionsbestände sind fast ausverkauft.</b>
+      </p>
+      <div class="formFb__timer">
+        <p class="formFb__text" style="font-size: 14px; color: #333; margin-bottom: 4px;">
+          Achtung, es sind nur noch:
+        </p>
+        <div class="timer" id="stock-countdown" style="font-size: 16px; font-weight: 500; color: #aa0000; background: #fff6f6; padding: 6px 12px; border-radius: 6px; display: inline-block; box-shadow: 0 0 4px rgba(255, 0, 0, 0.08);">
+          <span class="form-instock red" id="stock-left" style="font-weight: bold;">22</span> Einheiten auf Lager
+        </div>
+      </div>
+
+      <style>
         #stock-left {
-            font-family: 'Poppins', sans-serif;
-            font-size: 20px;
-            font-weight: 900;
-            color: #dc2626;
-            transition: all 0.3s ease;
-            background: #ffffff;
-            padding: 8px 16px;
-            border-radius: 6px;
-            border: 1px solid #fee2e2;
-            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.15);
+          transition: all 0.3s ease;
         }
+      </style>
 
-        .formFb__img {
-            max-width: 180px;
-            margin: -10px 0 32px 0;
-        }
+      <script>
+        let stockLeft = 22;
+        const stockElement = document.getElementById('stock-left');
+        const minStock = 7;
 
-        .formFb__img img {
-            width: 100%;
-            max-width: 100%;
-            transition: transform 0.2s ease;
-        }
+        const stockInterval = setInterval(() => {
+          if (stockLeft > minStock) {
+            stockLeft--;
+            stockElement.textContent = stockLeft;
+          } else {
+            clearInterval(stockInterval);
+          }
+        }, 12000); // reduziert alle 12 Sekunden
+      </script>
+      
+      <div class="formFb__img">
+        <a href="https://info.naturlichfit.com/lander/vturb_1753742751_copy_copy_1766042342_copy/{offer}" style="padding: 0; margin: 0; display: inline-block;">
+          <img src="pp.webp" alt="1 bottle" class="enlarged-image" style="transform: scale(0.8); padding: 0; margin: 0;" loading="lazy">
+        </a>
+      </div>
 
-        .formFb__img:hover img {
-            transform: scale(1.02);
-        }
+      
 
-        .formFb__btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            max-width: 320px;
-            padding: 18px 24px;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            border: none;
-            border-radius: 10px;
-            text-decoration: none !important;
-            color: #ffffff;
-            font-size: 17px;
-            font-weight: 700;
-            font-family: 'Poppins', sans-serif;
-            letter-spacing: 0.5px;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
-            text-transform: uppercase;
-        }
+      <a class="formFb__btn" id="submit-button" href="https://info.naturlichfit.com/lander/vturb_1753742751_copy_copy_1766042342_copy/{offer}">JETZT BESTELLEN</a>
 
-        .formFb__btn:hover {
-            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
-            color: #ffffff;
-        }
-
-        .formFb__btn:active {
-            transform: translateY(0);
-        }
-
-        .formFb__counter {
-            text-align: center;
-            font-size: 14px;
-            color: #6b7280;
-            font-weight: 500;
-            font-family: 'Inter', sans-serif;
-            margin-bottom: 24px;
-            font-style: italic;
-        }
-
-        .trust-indicators {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            width: 100%;
-            max-width: 320px;
-        }
-
-        .trust-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #6b7280;
-            font-size: 14px;
-            font-weight: 500;
-            font-family: 'Inter', sans-serif;
-            letter-spacing: -0.01em;
-        }
-
-        .trust-item svg {
-            color: #10b981;
-            flex-shrink: 0;
-        }
-
-        /* Responsive */
-        @media (max-width: 480px) {
-            .formFb__container {
-                padding: 24px 20px;
-            }
-
-            .formFb__action {
-                font-size: 17px;
-            }
-
-            .formFb__timer {
-                padding: 16px 20px;
-            }
-
-            .formFb__btn {
-                padding: 15px 20px;
-                font-size: 15px;
-                max-width: 280px;
-            }
-
-            .trust-indicators {
-                gap: 10px;
-            }
-
-            #stock-left {
-                font-size: 18px;
-                padding: 6px 12px;
-            }
-        }
-
-        /* Animation d'apparition */
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .formFb {
-            animation: slideInUp 0.6s ease-out;
-        }
-
-        /* Animation du compteur de stock */
-        @keyframes pulse-stock {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        #stock-left {
-            animation: pulse-stock 3s infinite;
-        }
-
-        blockquote {
-            margin-bottom: 1rem;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        img+blockquote {
-            margin-top: .5rem;
-        }
-
-        @media screen and (max-width: 500px) {
-            .main_header {
-                font-size: 22px;
-            }
-
-            .tv_icons img {
-                width: 70px;
-                height: 70px;
-            }
-
-            .tv_icons {
-                gap: 5px;
-            }
-        }
-
-        @media screen and (max-width: 360px) {
-            .main_header {
-                font-size: 26px;
-            }
-
-            .tv_icons>img {
-                scale: 0.7;
-            }
-        }
-
-        .iti {
-            width: 100%;
-        }
-
-        /* Desktop - taille vidéo encore plus réduite */
-        @media (min-width: 1024px) {
-            #video {
-                max-width: 550px;
-                /* Réduit de 650px à 550px */
-            }
-
-            .video {
-                max-width: 600px;
-                /* Réduit de 750px à 600px */
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-    
-    
-
-    <h1 class="main_header">
-        2026 :
-        <span class="green_bg"> WIE DIESES MOLEKÜL BIS ZU 9 KG IN 17 TAGEN VERSCHWINDEN LÄSST — OHNE SPORT
-        </span>
-    </h1>
-    <div id="vue-counter">
-        <span class="dot"></span>
-        <span class="text">2437 Personen sehen sich dieses Video gerade an</span>
+      <p class="formFb__counter formFb__text">
+        Diese Ermäßigung auf die Behandlung gilt nur heute.
+      </p>
     </div>
+  </div>
+</form>
 
-    <script>
-        let base = 2434;
-        let currentViews = base + Math.floor(Math.random() * 5); // 434–439 initial
+<script>
+  // Scroll automatique vers la section commande après 392 secondes
+setTimeout(() => {
+  const orderSection = document.getElementById('order');
+  if (orderSection) {
+    orderSection.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+    
+    // Optionnel : ajouter un effet visuel pour attirer l'attention
+    orderSection.style.animation = 'fadeInScale 1s ease-out';
+  }
+}, 492000); // 392 secondes = 392000 millisecondes
 
-        function updateViews() {
-            const variation = Math.floor(Math.random() * 3) - 1; // -1, 0 oder +1
-            currentViews = Math.max(2410, Math.min(2470, currentViews + variation));
-            const counterText = document.querySelector("#vue-counter .text");
-            if (counterText) {
-                counterText.textContent = `${currentViews} Personen sehen sich dieses Video gerade an`;
-            }
-        }
-
-        setInterval(updateViews, 4000); // alle 4 Sekunden aktualisieren
-    </script>
-
-    <style>
-        #vue-counter {
-            text-align: center;
-            font-size: 12px;
-            color: #aa0000;
-            background-color: #ffecec;
-            padding: 4px 8px;
-            border-radius: 4px;
-            width: fit-content;
-            margin: 0 auto 6px auto;
-            font-weight: 500;
-            box-shadow: 0 0 3px rgba(255, 0, 0, 0.08);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            background-color: red;
-            border-radius: 50%;
-            animation: blink 1.2s infinite;
-        }
-
-        @keyframes blink {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.2;
-            }
-        }
-    </style>
-    <style>
-        .hide {
-            display: none;
-        }
-    </style>
-    <div id="video-wrapper">
-        <vturb-smartplayer id="vid-6967e06a16e3821ec3e1f275" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"></vturb-smartplayer>
-        <script type="text/javascript">
-            var s = document.createElement("script");
-            s.src = "js/vsl.js", s.async = !0, document.head.appendChild(s);
-        </script>
-
-        <script>
-            var delaySeconds = 490;
-            var player = document.querySelector("vturb-smartplayer");
-
-            player.addEventListener("player:ready", function() {
-                // Affiche le formulaire et le widget à 645 secondes sans persistance
-                player.displayHiddenElements(delaySeconds, ["#order", "#purchase-widget"]);
-            });
-
-            // Redirection automatique à la fin de la vidéo
-            player.addEventListener("ended", function() {
-                window.location.href = "{offer}";
-            });
-        </script>
-
-        <!-- Marque les éléments à afficher après 18 min -->
-        <form id="order" class="hide" class="smartplayer-scroll-event" style="margin-top: 20px">
-            <div id="formFb" class="formFb">
-                <div class="formFb__container">
-                    <p class="formFb__action formFb__text">
-                        <b>Die Aktionsbestände sind fast ausverkauft.</b>
-                    </p>
-                    <div class="formFb__timer">
-                        <p class="formFb__text" style="font-size: 14px; color: #333; margin-bottom: 4px;">
-                            Achtung, es sind nur noch:
-                        </p>
-                        <div class="timer" id="stock-countdown" style="font-size: 16px; font-weight: 500; color: #aa0000; background: #fff6f6; padding: 6px 12px; border-radius: 6px; display: inline-block; box-shadow: 0 0 4px rgba(255, 0, 0, 0.08);">
-                            <span class="form-instock red" id="stock-left" style="font-weight: bold;">22</span> Einheiten auf Lager
-                        </div>
-                    </div>
-
-                    <style>
-                        #stock-left {
-                            transition: all 0.3s ease;
-                        }
-                    </style>
-
-                    <script>
-                        let stockLeft = 22;
-                        const stockElement = document.getElementById('stock-left');
-                        const minStock = 7;
-
-                        const stockInterval = setInterval(() => {
-                            if (stockLeft > minStock) {
-                                stockLeft--;
-                                stockElement.textContent = stockLeft;
-                            } else {
-                                clearInterval(stockInterval);
-                            }
-                        }, 12000); // reduziert alle 12 Sekunden
-                    </script>
-
-                    <div class="formFb__img">
-                        <a href="{offer}" style="padding: 0; margin: 0; display: inline-block;">
-                            <img src="img/pp.webp" alt="1 bottle" class="enlarged-image" style="transform: scale(0.8); padding: 0; margin: 0;" loading="lazy">
-                        </a>
-                    </div>
-
-
-
-                    <a class="formFb__btn" id="submit-button" href="{offer}">JETZT BESTELLEN</a>
-
-                    <p class="formFb__counter formFb__text">
-                        Diese Ermäßigung auf die Behandlung gilt nur heute.
-                    </p>
-                </div>
-            </div>
-        </form>
-
-        <script>
-            // Scroll automatique vers la section commande après 392 secondes
-            setTimeout(() => {
-                const orderSection = document.getElementById('order');
-                if (orderSection) {
-                    orderSection.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'center'
-                    });
-
-                    // Optionnel : ajouter un effet visuel pour attirer l'attention
-                    orderSection.style.animation = 'fadeInScale 1s ease-out';
-                }
-            }, 492000); // 392 secondes = 392000 millisecondes
-
-            // CSS pour l'animation optionnelle
-            const style = document.createElement('style');
-            style.textContent = `
+// CSS pour l'animation optionnelle
+const style = document.createElement('style');
+style.textContent = `
   @keyframes fadeInScale {
     0% {
       opacity: 0.7;
@@ -1242,11 +1159,11 @@
     }
   }
 `;
-            document.head.appendChild(style);
-        </script>
+document.head.appendChild(style);
+</script>
 
-        <!-- Kauf-Widget -->
-        <a id="purchase-widget" class="hide" href="{offer}" target="_blank" style="
+<!-- Kauf-Widget -->
+<a id="purchase-widget" class="hide" href="https://info.naturlichfit.com/lander/vturb_1753742751_copy_copy_1766042342_copy/{offer}" target="_blank" style="
   display: none;
   align-items: center;
   gap: 12px;
@@ -1267,364 +1184,379 @@
   transform: translateY(20px);
   transition: opacity 0.6s ease, transform 0.6s ease;
 ">
-            <img src="img/pp.webp" alt="Glpura" style="
+  <img src="pp.webp" alt="Glpura" style="
     width: 52px;
     height: 52px;
     border-radius: 10px;
     object-fit: cover;
     flex-shrink: 0;
   ">
-            <div id="purchase-text" style="line-height: 1.4;">
-                Jemand hat gerade Glpura bestellt...
+  <div id="purchase-text" style="line-height: 1.4;">
+    Jemand hat gerade Glpura bestellt...
+  </div>
+</a>
+
+<script>
+  const widget = document.getElementById("purchase-widget");
+  const text = document.getElementById("purchase-text");
+
+  const prenoms = ["Claudia", "Sabine", "Julia", "Nina", "Isabel", "Petra", "Anna", "Sophie", "Laura", "Katrin"];
+  const villes = ["Berlin", "München", "Hamburg", "Köln", "Frankfurt", "Stuttgart", "Düsseldorf", "Leipzig", "Hannover", "Nürnberg"];
+  const produits = ["1 Schachtel", "2 Schachtel", "3 Schachtel"];
+
+  function showPurchase() {
+    const prenom = prenoms[Math.floor(Math.random() * prenoms.length)];
+    const ville = villes[Math.floor(Math.random() * villes.length)];
+    const produit = produits[Math.floor(Math.random() * produits.length)];
+
+    text.textContent = `${prenom} aus ${ville} hat gerade ${produit} Glpura bestellt`;
+
+    widget.style.display = "flex";
+    setTimeout(() => {
+      widget.style.opacity = "1";
+      widget.style.transform = "translateY(0)";
+    }, 50);
+
+    setTimeout(() => {
+      widget.style.opacity = "0";
+      widget.style.transform = "translateY(20px)";
+    }, 6000);
+  }
+
+  setTimeout(() => {
+    showPurchase();
+    setInterval(showPurchase, Math.floor(20000 + Math.random() * 10000));
+  }, 500000); // Début à 12m05 (en ms)
+</script>
+
+<br>
+  <div class="block_tv" style="max-width: 900px; margin: 0 auto">
+    <p>GESEHEN BEI:</p>
+    <div class="tv_icons">
+      <img src="de1.png" alt="" data-savepage-loading="lazy">
+      <img src="de2.png" style="object-fit: fill;" alt="" data-savepage-loading="lazy">
+      <img src="de3.png" alt="" data-savepage-loading="lazy">
+
+      <img src="de4.jpg" alt="" data-savepage-loading="lazy">
+      
+    </div>
+  </div>
+  <style>
+    .fb-comments-wrapper {
+      display: none;
+      opacity: 0;
+    }
+  </style>
+
+  <section class="comments py-4" style="max-width: 900px; margin: 0 auto">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="fb-comments" style="margin-top: 5px">
+            <div class="fb-comments-header">
+              <span>Kommentare</span>
+            <div class="fb-comments-wrapper" id="1" style="opacity: 1; display: block;">
+              <div class="fb-comments-wrapper" id="8" style="opacity: 1; display: block;">
+  <table class="fb-comments-comment">
+    <tbody>
+      <tr>
+        <td rowspan="3" class="fb-comments-comment-img">
+          <img src="28ef5a049c3769247d05bb56428d8034bbfd6ddd.jpg" alt="">
+        </td>
+        <td>
+          <font class="fb-comments-comment-name">
+            <name>Sophie Meier</name>
+          </font>
+        </td>
+      </tr>
+      <tr>
+        <td class="fb-comments-comment-text">
+          Das Video hätte ruhig länger sein können, aber die Ergebnisse sprechen für sich. Ich merke schon nach ein paar Tagen eine Veränderung meines Körpers!
+        </td>
+      </tr>
+      <tr>
+        <td class="fb-comments-comment-actions">
+          <like>Gefällt mir ·</like> 
+          <reply>Antworten</reply>
+          <likes>8</likes>
+          <date>vor 2 Min.</date>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+  <table class="fb-comments-comment">
+    <tbody>
+      <tr>
+        <td rowspan="3" class="fb-comments-comment-img">
+          <img src="liam.jpg" alt="">
+        </td>
+        <td>
+          <font class="fb-comments-comment-name">
+            <name>Henry Bauer</name>
+          </font>
+        </td>
+      </tr>
+      <tr>
+        <td class="fb-comments-comment-text">
+          Klar, das ist kontrovers – aber genau das muss endlich gesagt werden. Urteilen Sie nicht vorschnell – schauen Sie es sich an und überzeugen Sie sich selbst, wie effektiv diese Methode beim Abnehmen ist.
+        </td>
+      </tr>
+      <tr>
+        <td class="fb-comments-comment-actions">
+          <like>Gefällt mir ·</like> 
+          <reply>Antworten</reply>
+          <likes>13</likes>
+          <date>vor 2 Min.</date>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="fb-comments-wrapper" id="2" style="opacity: 1.00124; display: block;">
+  <table class="fb-comments-comment">
+    <tbody>
+      <tr>
+        <td rowspan="3" class="fb-comments-comment-img">
+          <img src="b56722884944ca664be15e479568a1962408c267.jpg" alt="">
+        </td>
+        <td>
+          <font class="fb-comments-comment-name">
+            <name>Emil Weber</name>
+          </font>
+        </td>
+      </tr>
+      <tr>
+        <td class="fb-comments-comment-text">
+          Ich bin erst zur Hälfte durch das Video, und schon jetzt verändert sich mein ganzes Verständnis vom Abnehmen. Einfach stark.
+        </td>
+      </tr>
+      <tr>
+        <td class="fb-comments-comment-actions">
+          <like>Gefällt mir ·</like> 
+          <reply>Antworten</reply>
+          <likes>20</likes>
+          <date>vor 3 Min.</date>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="fb-comments-wrapper resposta" id="3" style="opacity: 1; display: block;">
+  <table class="fb-comments-comment">
+    <tbody>
+      <tr>
+        <td rowspan="3" class="fb-comments-comment-img">
+          <img src="gitl.jpg" alt="">
+        </td>
+        <td>
+          <font class="fb-comments-comment-name">
+            <name>Angela Kaufmann</name>
+          </font>
+        </td>
+      </tr>
+      <tr>
+        <td class="fb-comments-comment-text">
+          Ich teile das mit allen, die ich kenne – besonders mit denen, die seit Jahren versuchen abzunehmen. Dieses Video ist buchstäblich lebensverändernd.
+        </td>
+      </tr>
+      <tr>
+        <td class="fb-comments-comment-actions">
+          <like>Gefällt mir ·</like> 
+          <reply>Antworten</reply>
+          <likes>28</likes>
+          <date>vor 4 Min.</date>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="fb-comments-wrapper resposta" id="3" style="opacity: 1; display: block;">
+  <table class="fb-comments-comment">
+    <tbody>
+      <tr>
+        <td rowspan="3" class="fb-comments-comment-img">
+          <img src="anon.webp" alt="">
+        </td>
+        <td>
+          <font class="fb-comments-comment-name">
+            <name>Ida Schwarz</name>
+          </font>
+        </td>
+      </tr>
+      <tr>
+        <td class="fb-comments-comment-text">
+          Das ist buchstäblich lebensverändernd. Es geht nicht nur um die -3 KG in 5 Tagen. Es geht darum, dass ich wieder in meine Lieblingsjeans passe und mich im Spiegel nicht mehr verstecke. Endlich fühle ich mich wieder stark und weiblich. Unbedingt ansehen!
+        </td>
+      </tr>
+      <tr>
+        <td class="fb-comments-comment-actions">
+          <like>Gefällt mir ·</like> 
+          <reply>Antworten</reply>
+          <likes>98</likes>
+          <date>vor 5 Min.</date>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="fb-comments-wrapper" id="4" style="opacity: 1; display: block;">
+  <table class="fb-comments-comment">
+    <tbody>
+      <tr>
+        <td rowspan="3" class="fb-comments-comment-img">
+          <img src="last.jpg" alt="">
+        </td>
+        <td>
+          <font class="fb-comments-comment-name">
+            <name>Noah Smith</name>
+          </font>
+        </td>
+      </tr>
+      <tr>
+        <td class="fb-comments-comment-text">
+          Ich bin erst zur Hälfte durch das Video, und schon jetzt sehe ich die ersten Veränderungen. Mein Körper fühlt sich leichter an, und ich bin motivierter als je zuvor.
+        </td>
+      </tr>
+      <tr>
+        <td class="fb-comments-comment-actions">
+          <like>Gefällt mir ·</like> 
+          <reply>Antworten</reply>
+          <likes>45</likes>
+          <date>vor 5 Min.</date>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="fb-comments-wrapper" id="5" style="opacity: 1.00156; display: block;">
+  <table class="fb-comments-comment">
+    <tbody>
+      <tr>
+        <td rowspan="3" class="fb-comments-comment-img">
+          <img src="9fb4712e6da3f045074fdc01d10e14cc4e30bb7d.jpg" alt="">
+        </td>
+        <td>
+          <font class="fb-comments-comment-name">
+            <name>Ethan Müller</name>
+          </font>
+        </td>
+      </tr>
+      <tr>
+        <td class="fb-comments-comment-text">
+          Ich kann kaum glauben, dass es so einfach ist, Gewicht zu verlieren. Ihr habt mir buchstäblich Hoffnung gegeben und mein Leben verändert.
+        </td>
+      </tr>
+      <tr>
+        <td class="fb-comments-comment-actions">
+          <like>Gefällt mir ·</like> 
+          <reply>Antworten</reply>
+          <likes>50</likes>
+          <date>vor 5 Min.</date>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="fb-comments-wrapper" id="6" style="opacity: 1.0002; display: block;">
+  <table class="fb-comments-comment">
+    <tbody>
+      <tr>
+        <td rowspan="3" class="fb-comments-comment-img">
+          <img src="680d462a549e30858dac9ad7d3d17233b6a3a205.jpg" alt="">
+        </td>
+        <td>
+          <font class="fb-comments-comment-name">
+            <name>Emma Schneider</name>
+          </font>
+        </td>
+      </tr>
+      <tr>
+        <td class="fb-comments-comment-text">
+          Funktioniert das wirklich beim Abnehmen? Ich bin verzweifelt und suche dringend nach einer Lösung!
+        </td>
+      </tr>
+      <tr>
+        <td class="fb-comments-comment-actions">
+          <like>Gefällt mir ·</like> 
+          <reply>Antworten</reply>
+          <likes>24</likes>
+          <date>vor 7 Min.</date>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="fb-comments-wrapper" id="7" style="opacity: 1.00048; display: block;">
+  <table class="fb-comments-comment">
+    <tbody>
+      <tr>
+        <td rowspan="3" class="fb-comments-comment-img">
+          <img src="5e7e7b6b78d08d9d6db8aadb3b1e24ea67d72b95.jpg" alt="">
+        </td>
+        <td>
+          <font class="fb-comments-comment-name">
+            <name>Olivia Bckr</name>
+          </font>
+        </td>
+      </tr>
+      <tr>
+        <td class="fb-comments-comment-text">
+          Absolut unglaublich – ich mache das auf jeden Fall sofort. Ich habe endlich wieder Hoffnung, mein Wunschgewicht zu erreichen!
+        </td>
+      </tr>
+      <tr>
+        <td class="fb-comments-comment-actions">
+          <like>Gefällt mir ·</like> 
+          <reply>Antworten</reply>
+          <likes>32</likes>
+          <date>vor 8 Min.</date>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
+
+
+
+
+            <div id="more">
+
+
+
+
+
+
+
+
+
+              <p>
+                <strong><span style="text-align: center">Sie müssen angemeldet sein, um einen Kommentar zu hinterlassen.
+</span></strong>
+              </p>
             </div>
-        </a>
-
-        <script>
-            const widget = document.getElementById("purchase-widget");
-            const text = document.getElementById("purchase-text");
-
-            const prenoms = ["Claudia", "Sabine", "Julia", "Nina", "Isabel", "Petra", "Anna", "Sophie", "Laura", "Katrin"];
-            const villes = ["Berlin", "München", "Hamburg", "Köln", "Frankfurt", "Stuttgart", "Düsseldorf", "Leipzig", "Hannover", "Nürnberg"];
-            const produits = ["1 Schachtel", "2 Schachtel", "3 Schachtel"];
-
-            function showPurchase() {
-                const prenom = prenoms[Math.floor(Math.random() * prenoms.length)];
-                const ville = villes[Math.floor(Math.random() * villes.length)];
-                const produit = produits[Math.floor(Math.random() * produits.length)];
-
-                text.textContent = `${prenom} aus ${ville} hat gerade ${produit} Glpura bestellt`;
-
-                widget.style.display = "flex";
-                setTimeout(() => {
-                    widget.style.opacity = "1";
-                    widget.style.transform = "translateY(0)";
-                }, 50);
-
-                setTimeout(() => {
-                    widget.style.opacity = "0";
-                    widget.style.transform = "translateY(20px)";
-                }, 6000);
-            }
-
-            setTimeout(() => {
-                showPurchase();
-                setInterval(showPurchase, Math.floor(20000 + Math.random() * 10000));
-            }, 500000); // Début à 12m05 (en ms)
-        </script>
-
-        <br>
-        <div class="block_tv" style="max-width: 900px; margin: 0 auto">
-            <p>GESEHEN BEI:</p>
-            <div class="tv_icons">
-                <img src="img/de1.png" alt="" data-savepage-loading="lazy">
-                <img src="img/de2.png" style="object-fit: fill;" alt="" data-savepage-loading="lazy">
-                <img src="img/de3.png" alt="" data-savepage-loading="lazy">
-
-                <img src="img/de4.jpg" alt="" data-savepage-loading="lazy">
-
-            </div>
+          </div>
         </div>
-        <style>
-            .fb-comments-wrapper {
-                display: none;
-                opacity: 0;
-            }
-        </style>
-
-        <section class="comments py-4" style="max-width: 900px; margin: 0 auto">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="fb-comments" style="margin-top: 5px">
-                            <div class="fb-comments-header">
-                                <span>Kommentare</span>
-                                <div class="fb-comments-wrapper" id="1" style="opacity: 1; display: block;">
-                                    <div class="fb-comments-wrapper" id="8" style="opacity: 1; display: block;">
-                                        <table class="fb-comments-comment">
-                                            <tbody>
-                                                <tr>
-                                                    <td rowspan="3" class="fb-comments-comment-img">
-                                                        <img src="img/28ef5a049c3769247d05bb56428d8034bbfd6ddd.jpg" alt="">
-                                                    </td>
-                                                    <td>
-                                                        <font class="fb-comments-comment-name">
-                                                            <name>Sophie Meier</name>
-                                                        </font>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="fb-comments-comment-text">
-                                                        Das Video hätte ruhig länger sein können, aber die Ergebnisse sprechen für sich. Ich merke schon nach ein paar Tagen eine Veränderung meines Körpers!
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="fb-comments-comment-actions">
-                                                        <like>Gefällt mir ·</like>
-                                                        <reply>Antworten</reply>
-                                                        <likes>8</likes>
-                                                        <date>vor 2 Min.</date>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <table class="fb-comments-comment">
-                                        <tbody>
-                                            <tr>
-                                                <td rowspan="3" class="fb-comments-comment-img">
-                                                    <img src="img/liam.jpg" alt="">
-                                                </td>
-                                                <td>
-                                                    <font class="fb-comments-comment-name">
-                                                        <name>Henry Bauer</name>
-                                                    </font>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fb-comments-comment-text">
-                                                    Klar, das ist kontrovers – aber genau das muss endlich gesagt werden. Urteilen Sie nicht vorschnell – schauen Sie es sich an und überzeugen Sie sich selbst, wie effektiv diese Methode beim Abnehmen ist.
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fb-comments-comment-actions">
-                                                    <like>Gefällt mir ·</like>
-                                                    <reply>Antworten</reply>
-                                                    <likes>13</likes>
-                                                    <date>vor 2 Min.</date>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="fb-comments-wrapper" id="2" style="opacity: 1.00124; display: block;">
-                                    <table class="fb-comments-comment">
-                                        <tbody>
-                                            <tr>
-                                                <td rowspan="3" class="fb-comments-comment-img">
-                                                    <img src="img/b56722884944ca664be15e479568a1962408c267.jpg" alt="">
-                                                </td>
-                                                <td>
-                                                    <font class="fb-comments-comment-name">
-                                                        <name>Emil Weber</name>
-                                                    </font>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fb-comments-comment-text">
-                                                    Ich bin erst zur Hälfte durch das Video, und schon jetzt verändert sich mein ganzes Verständnis vom Abnehmen. Einfach stark.
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fb-comments-comment-actions">
-                                                    <like>Gefällt mir ·</like>
-                                                    <reply>Antworten</reply>
-                                                    <likes>20</likes>
-                                                    <date>vor 3 Min.</date>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="fb-comments-wrapper resposta" id="3" style="opacity: 1; display: block;">
-                                    <table class="fb-comments-comment">
-                                        <tbody>
-                                            <tr>
-                                                <td rowspan="3" class="fb-comments-comment-img">
-                                                    <img src="img/gitl.jpg" alt="">
-                                                </td>
-                                                <td>
-                                                    <font class="fb-comments-comment-name">
-                                                        <name>Angela Kaufmann</name>
-                                                    </font>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fb-comments-comment-text">
-                                                    Ich teile das mit allen, die ich kenne – besonders mit denen, die seit Jahren versuchen abzunehmen. Dieses Video ist buchstäblich lebensverändernd.
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fb-comments-comment-actions">
-                                                    <like>Gefällt mir ·</like>
-                                                    <reply>Antworten</reply>
-                                                    <likes>28</likes>
-                                                    <date>vor 4 Min.</date>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="fb-comments-wrapper resposta" id="3" style="opacity: 1; display: block;">
-                                    <table class="fb-comments-comment">
-                                        <tbody>
-                                            <tr>
-                                                <td rowspan="3" class="fb-comments-comment-img">
-                                                    <img src="img/anon.webp" alt="">
-                                                </td>
-                                                <td>
-                                                    <font class="fb-comments-comment-name">
-                                                        <name>Ida Schwarz</name>
-                                                    </font>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fb-comments-comment-text">
-                                                    Das ist buchstäblich lebensverändernd. Es geht nicht nur um die -3 KG in 5 Tagen. Es geht darum, dass ich wieder in meine Lieblingsjeans passe und mich im Spiegel nicht mehr verstecke. Endlich fühle ich mich wieder stark und weiblich. Unbedingt ansehen!
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fb-comments-comment-actions">
-                                                    <like>Gefällt mir ·</like>
-                                                    <reply>Antworten</reply>
-                                                    <likes>98</likes>
-                                                    <date>vor 5 Min.</date>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="fb-comments-wrapper" id="4" style="opacity: 1; display: block;">
-                                    <table class="fb-comments-comment">
-                                        <tbody>
-                                            <tr>
-                                                <td rowspan="3" class="fb-comments-comment-img">
-                                                    <img src="img/last.jpg" alt="">
-                                                </td>
-                                                <td>
-                                                    <font class="fb-comments-comment-name">
-                                                        <name>Noah Smith</name>
-                                                    </font>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fb-comments-comment-text">
-                                                    Ich bin erst zur Hälfte durch das Video, und schon jetzt sehe ich die ersten Veränderungen. Mein Körper fühlt sich leichter an, und ich bin motivierter als je zuvor.
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fb-comments-comment-actions">
-                                                    <like>Gefällt mir ·</like>
-                                                    <reply>Antworten</reply>
-                                                    <likes>45</likes>
-                                                    <date>vor 5 Min.</date>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="fb-comments-wrapper" id="5" style="opacity: 1.00156; display: block;">
-                                    <table class="fb-comments-comment">
-                                        <tbody>
-                                            <tr>
-                                                <td rowspan="3" class="fb-comments-comment-img">
-                                                    <img src="img/9fb4712e6da3f045074fdc01d10e14cc4e30bb7d.jpg" alt="">
-                                                </td>
-                                                <td>
-                                                    <font class="fb-comments-comment-name">
-                                                        <name>Ethan Müller</name>
-                                                    </font>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fb-comments-comment-text">
-                                                    Ich kann kaum glauben, dass es so einfach ist, Gewicht zu verlieren. Ihr habt mir buchstäblich Hoffnung gegeben und mein Leben verändert.
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fb-comments-comment-actions">
-                                                    <like>Gefällt mir ·</like>
-                                                    <reply>Antworten</reply>
-                                                    <likes>50</likes>
-                                                    <date>vor 5 Min.</date>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="fb-comments-wrapper" id="6" style="opacity: 1.0002; display: block;">
-                                    <table class="fb-comments-comment">
-                                        <tbody>
-                                            <tr>
-                                                <td rowspan="3" class="fb-comments-comment-img">
-                                                    <img src="img/680d462a549e30858dac9ad7d3d17233b6a3a205.jpg" alt="">
-                                                </td>
-                                                <td>
-                                                    <font class="fb-comments-comment-name">
-                                                        <name>Emma Schneider</name>
-                                                    </font>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fb-comments-comment-text">
-                                                    Funktioniert das wirklich beim Abnehmen? Ich bin verzweifelt und suche dringend nach einer Lösung!
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fb-comments-comment-actions">
-                                                    <like>Gefällt mir ·</like>
-                                                    <reply>Antworten</reply>
-                                                    <likes>24</likes>
-                                                    <date>vor 7 Min.</date>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="fb-comments-wrapper" id="7" style="opacity: 1.00048; display: block;">
-                                    <table class="fb-comments-comment">
-                                        <tbody>
-                                            <tr>
-                                                <td rowspan="3" class="fb-comments-comment-img">
-                                                    <img src="img/5e7e7b6b78d08d9d6db8aadb3b1e24ea67d72b95.jpg" alt="">
-                                                </td>
-                                                <td>
-                                                    <font class="fb-comments-comment-name">
-                                                        <name>Olivia Bckr</name>
-                                                    </font>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fb-comments-comment-text">
-                                                    Absolut unglaublich – ich mache das auf jeden Fall sofort. Ich habe endlich wieder Hoffnung, mein Wunschgewicht zu erreichen!
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fb-comments-comment-actions">
-                                                    <like>Gefällt mir ·</like>
-                                                    <reply>Antworten</reply>
-                                                    <likes>32</likes>
-                                                    <date>vor 8 Min.</date>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+      </div>
+    </div>
+  </section>
 
 
 
-
-
-                                <div id="more">
-
-
-
-
-
-                                    <p>
-                                        <strong><span style="text-align: center">Sie müssen angemeldet sein, um einen Kommentar zu hinterlassen.
-                                            </span></strong>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        </section>
-
-
-
-        <script src="js/main_script.js"></script>
-        <script src="js/comments.js"></script>
+  <!-- <script src="js.js"></script> -->
+  <script src="main_script.js"></script>
+  <script>
+    $("a").attr("href", "{offer}");
+    setTimeout(() => {
+      $("a").removeAttr("onclick");
+    }, 1000); 
+  </script>
+  <script src="comments.js"></script>
 
 
 </body>
